@@ -7,53 +7,52 @@
     var stage = new PIXI.Stage(0x4444DD);
 
     var keyboard = new GAMEKBD.Keyboard();
+    var camera = new PROJECTION.Camera(45, 8/5, 1, 100);
 
-    var assets = {
-        "texture": [
-            'bg.png'
-        ]
-    };
-    var assetManager = new GameAssetManager(assets);
-    assetManager.onload = function(){
-        var tex = assetManager.get('bg.png');
-        var bg = new PIXI.Sprite(tex);
+    var tex = PIXI.Texture.fromImage('square.png')
+    var bg = new PIXI.Sprite(tex);
 
-        bg.position.x = 400;
-        bg.position.y = 250;
-        bg.anchor.x = 0.5;
-        bg.anchor.y = 0.5;
-        bg.tint = 0xFF0000;
+    var bgPos = [0, 0, 0];
 
-        stage.addChild(bg);
+    bg.position.x = 400;
+    bg.position.y = 250;
+    bg.anchor.x = 0.5;
+    bg.anchor.y = 0.5;
 
-        var animate = function()
+    stage.addChild(bg);
+
+    var animate = function()
+    {
+        var newPos = camera.transform(bgPos);
+        var s = 1/newPos[2];
+        bg.scale.x = s;
+        bg.scale.y = s;
+        bg.position.x = 400 + newPos[0]|0;
+        bg.position.y = 250 + newPos[1]|0;
+
+        if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_W))
         {
-            bg.rotation += 0.01;
-            var s = 0.5 + 0.5*Math.abs(Math.sin(bg.rotation));
-            bg.scale.x = s;
-            bg.scale.y = s;
+            bgPos[2] -= 1;
+        }
+        if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_S))
+        {
+            bgPos[2] += 1;
+        }
+        if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_A))
+        {
+            bgPos[0] -= 1;
+        }
+        if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_D))
+        {
+            bgPos[0] += 1;
+        }
 
-            if (keyboard.isKeyPressed(GAMEKBD.Keys.KEY_R))
-            {
-                bg.tint = 0xFF0000;
-            }
-            if (keyboard.isKeyPressed(GAMEKBD.Keys.KEY_G))
-            {
-                bg.tint = 0x00FF00;
-            }
-            if (keyboard.isKeyPressed(GAMEKBD.Keys.KEY_B))
-            {
-                bg.tint = 0x0000FF;
-            }
+        keyboard.update();
 
-            keyboard.update();
-
-            renderer.render(stage);
-        };
-
-        TweenLite.ticker.addEventListener("tick", animate);
+        renderer.render(stage);
     };
-    assetManager.load();
+
+    TweenLite.ticker.addEventListener("tick", animate);
 
 
 })();
