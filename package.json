@@ -1,17 +1,17 @@
 {
-  "name": "yourlibrary",
+  "name": "projection.js",
   "version": "0.1.0",
-  "title": "YourLibrary",
-  "homepage": "http://chris.enytc.com",
+  "title": "projection.js",
+  "homepage": "https://github.com/jeffreyjw/projection.js",
   "description": "A JavaScript Library",
   "author": {
-    "name": "Christopher EnyTC",
-    "url": "http://chris.enytc.com",
-    "email": "chrisenytc@gmail.com"
+    "name": "jeffreyjw",
+    "url": "https://github.com/jeffreyjw",
+    "email": "jjwojtczak@gmail.com"
   },
   "repository": {
       "type": "git",
-      "url": "https://github.com/chrisenytc/generator-library.git"
+      "url": "https://github.com/jeffreyjw/projection.js.git"
   },
   "keywords": [
       "vpl",
@@ -19,12 +19,12 @@
       "library"
   ],
   "bugs": {
-      "url": "https://github.com/chrisenytc/generator-library/issues"
+      "url": "https://github.com/jeffreyjw/projection.js/issues"
   },
   "licenses": [
       {
           "type": "MIT",
-          "url": "https://github.com/chrisenytc/generator-library/blob/master/LICENSE"
+          "url": "https://github.com/jeffreyjw/projection.js/blob/master/LICENSE"
       }
   ],
   "dependencies": {},

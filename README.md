@@ -1,11 +1,11 @@
-yourLibrary
+projection.js
 ===
 
 A JavaScript Library
 
 ### Maintainer
 
-[Christopher EnyTC](https://github.com/chrisenytc)
+[jeffreyjw](https://github.com/jeffreyjw)
 
 ### Get Started
 
@@ -36,7 +36,7 @@ yourLibrary.hello();
 
 The MIT License (MIT)
 
-Copyright (c) 2013 yourName
+Copyright (c) 2013 jeffreyjw
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
