@@ -8,7 +8,7 @@ class PROJECTION.Camera
   zFar: null
 
   projectionMatrix: null
-  modelViewMatrix: null
+  viewMatrix: null
 
   constructor: (fieldOfView, aspectRatio, zNear, zFar) ->
     this.fieldOfView = fieldOfView
@@ -22,14 +22,14 @@ class PROJECTION.Camera
     this.projectionMatrix = mat4.create();
     mat4.perspective(this.projectionMatrix, this.fieldOfView, this.aspectRatio, this.zNear, this.zFar)
 
-    this.modelViewMatrix = mat4.create()
-    mat4.lookAt(this.modelViewMatrix, [0, 0, 1], [0, 0, 0], [0, 1, 0])
+    this.viewMatrix = mat4.create()
+    mat4.lookAt(this.viewMatrix, [0, 0, 1], [0, 0, 0], [0, 1, 0])
 
-  transform: (vec) ->
+  transform: (vec, modelMatrix) ->
     outVec = vec3.create()
-    tmpVec = vec3.create()
-    vec3.transformMat4(tmpVec, vec, this.modelViewMatrix)
-    vec3.transformMat4(outVec, tmpVec, this.projectionMatrix)
+    vec3.transformMat4(outVec, vec, modelMatrix)
+    vec3.transformMat4(outVec, outVec, this.viewMatrix)
+    vec3.transformMat4(outVec, outVec, this.projectionMatrix)
 
     return outVec
 

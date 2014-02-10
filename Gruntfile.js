@@ -40,7 +40,8 @@ module.exports = function(grunt) {
               },
               files: {
                 "<%= dirs.js %>/main.js" : "<%= dirs.coffee %>/main.coffee",
-                "<%= dirs.js %>/camera.js" : "<%= dirs.coffee %>/camera.coffee"
+                "<%= dirs.js %>/camera.js" : "<%= dirs.coffee %>/camera.coffee",
+                "<%= dirs.js %>/node.js" : "<%= dirs.coffee %>/node.coffee"
               }
             }
         },
@@ -55,7 +56,8 @@ module.exports = function(grunt) {
               files: {
                   "<%= dirs.build %>/projection.min.js": [
                       "<%= dirs.js %>/main.js",
-                      "<%= dirs.js %>/camera.js"
+                      "<%= dirs.js %>/camera.js",
+                      "<%= dirs.js %>/node.js"
                   ]
               }
             }
