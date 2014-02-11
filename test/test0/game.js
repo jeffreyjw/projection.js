@@ -61,6 +61,10 @@
         else
             bg2.visible = true;
 
+        stage.children.sort(function(a,b){
+            return a.scale.x - b.scale.x
+        });
+
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_W))
         {
             node1.position[2] -= 0.1;
@@ -71,11 +75,11 @@
         }
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_A))
         {
-            node1.position[0] -= 1;
+            node1.position[0] += 2;
         }
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_D))
         {
-            node1.position[0] += 1;
+            node1.position[0] -= 2;
         }
 
         keyboard.update();
