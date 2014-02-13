@@ -7,9 +7,9 @@
     var stage = new PIXI.Stage(0x4444DD);
 
     var keyboard = new GAMEKBD.Keyboard();
-    var camera = new PROJECTION.Camera(45, 8/5, 1, 100);
+    var camera = new PROJECTION.Camera();
 
-    var tex = PIXI.Texture.fromImage('square.png')
+    var tex = PIXI.Texture.fromImage('square.png');
 
     var bg = new PIXI.Sprite(tex);
     bg.position.x = 400;
@@ -30,11 +30,8 @@
     var node1 = new PROJECTION.Node();
     var node2 = new PROJECTION.Node(node1);
 
-    node1.position = [0, 0, 0]
-    node2.position = [6, 6, 10]
-
-    console.log(node1.children);
-    console.log(node2.children);
+    node1.position = [0, 0, 0];
+    node2.position = [0, 0, 2];
 
     var animate = function()
     {
@@ -67,19 +64,31 @@
 
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_W))
         {
-            node1.position[2] -= 0.1;
+            var pos = camera.position;
+            pos[2] -= 0.1;
+            camera.position = pos;
+            console.log(camera.position);
         }
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_S))
         {
-            node1.position[2] += 0.1;
+            var pos = camera.position;
+            pos[2] += 0.1;
+            camera.position = pos;
+            console.log(camera.position);
         }
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_A))
         {
-            node1.position[0] += 2;
+            var pos = camera.position;
+            pos[0] -= 0.1;
+            camera.position = pos;
+            console.log(camera.position);
         }
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_D))
         {
-            node1.position[0] -= 2;
+            var pos = camera.position;
+            pos[0] += 0.1;
+            camera.position = pos;
+            console.log(camera.position);
         }
 
         keyboard.update();

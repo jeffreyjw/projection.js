@@ -55,7 +55,7 @@ PROJECTION.Node = (function() {
       out.position = [0, 0];
       out.scale = 0;
     } else {
-      out.scale = -1 / vec[2];
+      out.scale = 1 / vec[2];
       out.position = [vec[0] * out.scale, vec[1] * out.scale];
     }
     return out;
