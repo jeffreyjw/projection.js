@@ -4,11 +4,15 @@ PROJECTION.Node = (function() {
 
   Node.prototype.scale = 0;
 
+  Node.prototype.rotation = null;
+
   Node.prototype.parent = null;
 
   Node.prototype.children = null;
 
   Node.prototype.matrix = null;
+
+  Node.prototype._identity = null;
 
   function Node(parent) {
     if (parent == null) {
@@ -21,22 +25,36 @@ PROJECTION.Node = (function() {
     }
     this.matrix = mat4.create();
     this.position = vec3.create();
+    this.rotation = [0, 0, 0];
+    this._identity = mat4.create();
   }
 
   Node.prototype.update = function() {
-    var child, _i, _len, _ref, _results;
-    if (this.parent !== null) {
-      mat4.translate(this.matrix, this.parent.matrix, this.position);
-    } else {
-      mat4.translate(this.matrix, mat4.create(), this.position);
-    }
+    var child, index, _i, _len, _ref;
+    mat4.translate(this.matrix, this._parentMatrix(), this.position);
+    mat4.rotateX(this.matrix, this.matrix, this.rotation[0]);
+    mat4.rotateY(this.matrix, this.matrix, this.rotation[1]);
+    mat4.rotateZ(this.matrix, this.matrix, this.rotation[2]);
     _ref = this.children;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      child = _ref[_i];
-      _results.push(child.update());
+    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+      child = _ref[index];
+      if (child.parent === this) {
+        child.update();
+      } else {
+        this.children[index] = null;
+      }
     }
-    return _results;
+    return this.children = this.children.filter(function(child) {
+      return child !== null;
+    });
+  };
+
+  Node.prototype._parentMatrix = function() {
+    if (this.parent !== null) {
+      return this.parent.matrix;
+    } else {
+      return this._identity;
+    }
   };
 
   Node.prototype.getData2d = function(camera) {
@@ -45,12 +63,7 @@ PROJECTION.Node = (function() {
       position: null,
       scale: null
     };
-    vec = null;
-    if (this.parent !== null) {
-      vec = camera.transform(this.position, this.parent.matrix);
-    } else {
-      vec = camera.transform(this.position, mat4.create());
-    }
+    vec = camera.transform(this.position, this._parentMatrix());
     if (vec[2] === 0) {
       out.position = [0, 0];
       out.scale = 0;
