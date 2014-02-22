@@ -4,9 +4,12 @@ class PROJECTION.Node
 
   position: null
   scale: 0
+  rotation: null
   parent: null
   children: null
   matrix: null
+  _identity: null
+
 
   constructor: (parent = null) ->
     this.parent = parent
@@ -15,16 +18,31 @@ class PROJECTION.Node
       this.parent.children.push(this)
     this.matrix = mat4.create()
     this.position = vec3.create()
+    this.rotation = [ 0, 0, 0 ]
+    this._identity = mat4.create()
+
 
   update: () ->
-    if (this.parent != null)
-      mat4.translate(this.matrix, this.parent.matrix, this.position)
-    else
-      mat4.translate(this.matrix, mat4.create(), this.position)
+    mat4.translate(this.matrix, this._parentMatrix(), this.position)
 
-    for child in this.children
-      # TODO: check if child.parent == this and remove from array if not
-      child.update()
+    for child, index in this.children
+      if child.parent == this
+        child.update()
+      else
+        this.children[index] = null
+
+    this.children = this.children.filter(
+      (child) ->
+        return child != null
+    )
+
+
+  _parentMatrix: () ->
+    if this.parent != null
+      return this.parent.matrix
+    else
+      return this._identity
+
 
   getData2d: (camera) ->
     out = {
@@ -32,11 +50,7 @@ class PROJECTION.Node
       scale: null
     }
 
-    vec = null
-    if this.parent != null
-      vec = camera.transform(this.position, this.parent.matrix)
-    else
-      vec = camera.transform(this.position, mat4.create())
+    vec = camera.transform(this.position, this._parentMatrix())
 
     if (vec[2] == 0)
       out.position = [0, 0]

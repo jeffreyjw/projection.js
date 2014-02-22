@@ -78,6 +78,7 @@ class PROJECTION.Camera extends PropertyObject
   projectionMatrix: null
   viewMatrix: null
 
+
   constructor: () ->
     this.fieldOfView = 45
     this.aspectRatio = 8/5
@@ -92,11 +93,14 @@ class PROJECTION.Camera extends PropertyObject
     this._dirtyModel = true
     this._dirtyView = true
 
+
   _updateView: () ->
     mat4.perspective(this.projectionMatrix, this.fieldOfView, this.aspectRatio, this.zNear, this.zFar)
 
+
   _updateModel: () ->
     mat4.lookAt(this.viewMatrix, this.position, this._lookAt, this.up)
+
 
   transform: (vec, modelMatrix) ->
     if this._dirtyModel
