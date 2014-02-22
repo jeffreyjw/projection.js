@@ -24,6 +24,9 @@ class PROJECTION.Node
 
   update: () ->
     mat4.translate(this.matrix, this._parentMatrix(), this.position)
+    mat4.rotateX(this.matrix, this.matrix, this.rotation[0])
+    mat4.rotateY(this.matrix, this.matrix, this.rotation[1])
+    mat4.rotateZ(this.matrix, this.matrix, this.rotation[2])
 
     for child, index in this.children
       if child.parent == this
