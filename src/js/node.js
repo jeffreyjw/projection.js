@@ -14,6 +14,8 @@ PROJECTION.Node = (function() {
 
   Node.prototype._identity = null;
 
+  Node.prototype._tmpMatrix = null;
+
   function Node(parent) {
     if (parent == null) {
       parent = null;
@@ -27,14 +29,15 @@ PROJECTION.Node = (function() {
     this.position = vec3.create();
     this.rotation = [0, 0, 0];
     this._identity = mat4.create();
+    this._tmpMatrix = mat4.create();
   }
 
   Node.prototype.update = function() {
     var child, index, _i, _len, _ref;
-    mat4.translate(this.matrix, this._parentMatrix(), this.position);
-    mat4.rotateX(this.matrix, this.matrix, this.rotation[0]);
-    mat4.rotateY(this.matrix, this.matrix, this.rotation[1]);
-    mat4.rotateZ(this.matrix, this.matrix, this.rotation[2]);
+    mat4.translate(this._tmpMatrix, this._parentMatrix(), this.position);
+    mat4.rotateX(this.matrix, this._tmpMatrix, this.rotation[0]);
+    mat4.rotateY(this._tmpMatrix, this.matrix, this.rotation[1]);
+    mat4.rotateZ(this.matrix, this._tmpMatrix, this.rotation[2]);
     _ref = this.children;
     for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
       child = _ref[index];
