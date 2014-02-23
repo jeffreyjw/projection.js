@@ -30,8 +30,8 @@
     var node1 = new PROJECTION.Node();
     var node2 = new PROJECTION.Node(node1);
 
-    node1.position = [0, 0, 0];
-    node2.position = [0, 0, 2];
+    node1.position = [20, 0, -5];
+    node2.position = [0, -20, 0];
 
     var animate = function()
     {
@@ -64,17 +64,11 @@
 
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_W))
         {
-            var pos = camera.position;
-            pos[2] -= 0.1;
-            camera.position = pos;
-            console.log(camera.position);
+            node1.rotation[2] += 0.1
         }
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_S))
         {
-            var pos = camera.position;
-            pos[2] += 0.1;
-            camera.position = pos;
-            console.log(camera.position);
+            node1.rotation[2] -= 0.1
         }
         if (keyboard.isKeyDown(GAMEKBD.Keys.KEY_A))
         {
